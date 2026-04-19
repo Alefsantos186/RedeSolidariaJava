@@ -3,6 +3,8 @@ package repository;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+
 import model.Beneficiario;
 import model.Doador;
 import model.ItemDoacao;
@@ -67,5 +69,64 @@ public class CadastroRepository {
         try (ObjectInputStream oisI = new ObjectInputStream(new FileInputStream("itens.dat"))) {
             itens = (List<ItemDoacao>) oisI.readObject();
         } catch (Exception e) { }
+    }
+    
+    public int gerarIdDoador() {
+        Random random = new Random();
+        int novoId;
+        boolean existe;
+        do {
+            novoId = 10000 + random.nextInt(90000); 
+            int idGerado = novoId; 
+            existe = doadores.stream().anyMatch(d -> d.getId() == idGerado);
+        } while (existe);
+        return novoId;
+    }
+
+    public int gerarIdBeneficiario() {
+        Random random = new Random();
+        int novoId;
+        boolean existe;
+        do {
+            novoId = 10000 + random.nextInt(90000);
+            int idGerado = novoId;
+            existe = beneficiarios.stream().anyMatch(b -> b.getId() == idGerado);
+        } while (existe);
+        return novoId;
+    }
+
+    public int gerarIdItem() {
+        Random random = new Random();
+        int novoId;
+        boolean existe;
+        do {
+            novoId = 10000 + random.nextInt(90000);
+            int idGerado = novoId;
+            existe = itens.stream().anyMatch(i -> i.getId() == idGerado);
+        } while (existe);
+        return novoId;
+    }
+    
+    public boolean emailDoadorExiste(String email) {
+        return doadores.stream().anyMatch(d -> d.getEmail().equalsIgnoreCase(email));
+    }
+
+    public boolean emailBeneficiarioExiste(String email) {
+        return beneficiarios.stream().anyMatch(b -> b.getEmail().equalsIgnoreCase(email));
+    }
+
+    public void apagarTodosDoadores() {
+        doadores.clear();
+        salvarNoArquivo(); 
+    }
+
+    public void apagarTodosBeneficiarios() {
+        beneficiarios.clear();
+        salvarNoArquivo(); 
+    }
+
+    public void apagarTodosItens() {
+        itens.clear();
+        salvarNoArquivo(); 
     }
 }
