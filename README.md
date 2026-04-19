@@ -17,6 +17,7 @@ Listar dados salvos (Doadores, Beneficiários e Itens Disponíveis)
 Salvar e carregar dados automaticamente ao abrir e fechar o programa.
 
 📊 Diagrama de Classes (Modelagem)
+==================================
 ![Diagrama de Classes](diagrama_de_classe.jpg)
 
 🚀 Como usar
@@ -41,28 +42,28 @@ java main.Main
 📝 Exemplo prático:
 Ao executar, você navegará por um menu interativo via CLI (linha de comando):
 ========================================
-         REDE SOLIDÁRIA DE DOAÇÃO
+REDE SOLIDÁRIA DE DOAÇÃO
 ========================================
-Como deseja acessar o sistema?
-1. Usuario comum (Apenas Cadastro e Consulta)
-2. Desenvolvedor (Acesso Total)
-Escolha: 1
+         Como deseja acessar o sistema?
+         
+         1. Usuario comum (Apenas Cadastro e Consulta)
+         2. Desenvolvedor (Acesso Total)
+         Escolha: 1
+         
+         MENU PRINCIPAL
+         
+         --- CADASTRAR ---
+         1. Cadastrar Doador
+         2. Cadastrar Beneficiário
+         3. Cadastrar Item para Doação
 
-========================================
-             MENU PRINCIPAL
-========================================
---- CADASTRAR ---
-1. Cadastrar Doador
-2. Cadastrar Beneficiário
-3. Cadastrar Item para Doação
-
---- CONSULTAR ---
-4. Listar Itens Disponíveis
-5. Listar Doadores
-6. Listar Beneficiários
-
-0. Sair
-Escolha uma opção:
+         --- CONSULTAR ---
+         4. Listar Itens Disponíveis
+         5. Listar Doadores
+         6. Listar Beneficiários
+         
+         0. Sair
+         Escolha uma opção:
 
 Persistência Local: Ao escolher a opção "0. Sair", o sistema varre as listas em memória e salva tudo em arquivos .dat locais de forma automática, garantindo que nenhum cadastro seja perdido.
 
@@ -87,17 +88,14 @@ src/
 ```
 
 📸 Evidências de Funcionamento (Checkpoint 1)
-
+==================================
 Estrutura de Pastas do Projeto
 ![Estrutura de Pastas](estruturas_pasta.jpg)
-
-Diagrama de Classes (Modelagem OO)
-![Diagrama de Classes](diagrama_de_classe.jpg)
 
 Execução no Terminal e Fluxo de Sistema
 Aqui estão as evidências do menu principal e das funcionalidades de cadastro e consulta em operação:
 
-**1. Acesso e Menu Principal:**
+**1. Acesso, Menu Principal e Cadastro de Doador:**
 ![Menu Principal](Menu1.jpg)
 
 **2. Cadastro de Beneficiário e Itens:**
