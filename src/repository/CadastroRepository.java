@@ -8,6 +8,7 @@ import java.util.Random;
 import model.Beneficiario;
 import model.Doador;
 import model.ItemDoacao;
+import model.Solicitacao;
 
 public class CadastroRepository {
 
@@ -43,14 +44,16 @@ public class CadastroRepository {
     public List<ItemDoacao> listarItens() { return itens; }
     public void deletarItem(int id) { itens.removeIf(i -> i.getId() == id); salvarNoArquivo(); }
 
-    private void salvarNoArquivo() {
+   private void salvarNoArquivo() {
         try (ObjectOutputStream oosB = new ObjectOutputStream(new FileOutputStream("beneficiarios.dat"));
              ObjectOutputStream oosD = new ObjectOutputStream(new FileOutputStream("doadores.dat"));
-             ObjectOutputStream oosI = new ObjectOutputStream(new FileOutputStream("itens.dat"))) {
+             ObjectOutputStream oosI = new ObjectOutputStream(new FileOutputStream("itens.dat"));
+             ObjectOutputStream oosS = new ObjectOutputStream(new FileOutputStream("solicitacoes.dat"))) { 
              
             oosB.writeObject(beneficiarios);    
             oosD.writeObject(doadores);
             oosI.writeObject(itens);    
+            oosS.writeObject(solicitacoes);
         } catch (IOException e) { 
             System.out.println("Erro ao Salvar: "+ e.getMessage()); 
         }
@@ -68,6 +71,10 @@ public class CadastroRepository {
 
         try (ObjectInputStream oisI = new ObjectInputStream(new FileInputStream("itens.dat"))) {
             itens = (List<ItemDoacao>) oisI.readObject();
+        } catch (Exception e) { }
+        
+        try (ObjectInputStream oisS = new ObjectInputStream(new FileInputStream("solicitacoes.dat"))) {
+            solicitacoes = (List<Solicitacao>) oisS.readObject();
         } catch (Exception e) { }
     }
     
@@ -128,5 +135,67 @@ public class CadastroRepository {
     public void apagarTodosItens() {
         itens.clear();
         salvarNoArquivo(); 
+    }
+
+    private List<Solicitacao> solicitacoes = new ArrayList<>();
+
+    public Beneficiario buscarBeneficiarioPorId(int id) {
+        return beneficiarios.stream().filter(b -> b.getId() == id).findFirst().orElse(null);
+    }
+
+    public ItemDoacao buscarItemPorId(int id) {
+        return itens.stream().filter(i -> i.getId() == id).findFirst().orElse(null);
+    }
+
+   public int gerarIdSolicitacao() {
+        Random random = new Random();
+        int novoid;
+        boolean existe;
+        do{
+            novoid = 10000 + random.nextInt(90000);
+            int idGerado = novoid;
+            existe = solicitacoes.stream().anyMatch(s -> s.getId() == idGerado);
+        } while (existe);
+        return novoid;
+    }
+
+    public void registrarSolicitacao(int idBeneficiario, int idItem, int quantidade, String justificativa) {
+        Beneficiario b = buscarBeneficiarioPorId(idBeneficiario);
+        ItemDoacao item = buscarItemPorId(idItem);
+
+        if (b == null) {
+            System.out.println("Erro: Beneficiário não encontrado!");
+            return;
+        }
+
+        if (item == null) {
+            System.out.println("Erro: Item não encontrado!");
+            return;
+        }
+
+        if (!item.getStatus().equalsIgnoreCase("Disponível")) {
+            System.out.println("Erro: Este item não está disponível(Status: " + item.getStatus() + ").");
+            return;
+        }
+
+        if (quantidade > item.getQuantidade()) {
+            System.out.println("Erro: Quantidade solicitada (" + quantidade+") é maior que o estoque(" + item.getQuantidade() + ").");
+            return;
+        }
+
+        item.setQuantidade(item.getQuantidade() - quantidade);
+
+        if (item.getQuantidade() == 0) {
+            item.setStatus("Reservado");
+        }
+
+        int idSol = gerarIdSolicitacao();
+        Solicitacao novaSolicitacao = new Solicitacao(idSol, b, item, quantidade, justificativa, "Aprovada");
+        solicitacoes.add(novaSolicitacao);
+
+        salvarNoArquivo();
+
+        System.out.println("\n Sucesso! Solicitação aprovada (ID: " + idSol + ")");
+        System.out.println("Novo estoque de '" + item.getNomeItem() + "': " + item.getQuantidade() + "(" + item.getStatus() + ")");
     }
 }
