@@ -12,9 +12,9 @@ public class ItemDoacao implements Serializable {
     private String estadoConservacao;
     private LocalDate data;
     private String status;
+    private int idDoador;
 
-
-    public ItemDoacao(int id, String nomeItem, String categoria, String descricao, int quantidade, String estadoConservacao, String status){
+    public ItemDoacao(int id, String nomeItem, String categoria, String descricao, int quantidade, String estadoConservacao, String status, int idDoador){
         this.id = id;
         this.nomeItem = nomeItem;
         this.categoria = categoria;
@@ -23,6 +23,7 @@ public class ItemDoacao implements Serializable {
         this.estadoConservacao = estadoConservacao;
         this.data = LocalDate.now();
         this.status = status;
+        this.idDoador = idDoador;
     }
 
     public int getId() {
@@ -87,6 +88,14 @@ public class ItemDoacao implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public int getIdDoador() {
+        return idDoador;
+    }
+
+    public void setIdDoador(int idDoador) {
+        this.idDoador = idDoador;
     }
     
 }
