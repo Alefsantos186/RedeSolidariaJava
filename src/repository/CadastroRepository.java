@@ -20,13 +20,35 @@ public class CadastroRepository {
         carregarDados();
     }
     
-    public void salvarBeneficiario(Beneficiario b) { beneficiarios.add(b); salvarNoArquivo(); }
-    public List<Beneficiario> listarBeneficiarios() { return beneficiarios; }
-    public void deletarBeneficiario(int id) { beneficiarios.removeIf(b -> b.getId() == id); salvarNoArquivo(); }
+    public void salvarBeneficiario(Beneficiario b) { 
+        beneficiarios.add(b); 
+        salvarNoArquivo(); 
+    }
+    
+    public List<Beneficiario> listarBeneficiarios() { 
+        return beneficiarios; 
+    }
+    
+    public boolean deletarBeneficiario(int id) { 
+        boolean removido = beneficiarios.removeIf(b -> b.getId() == id); 
+        if (removido) salvarNoArquivo();
+        return removido;
+    }
 
-    public void salvarDoador(Doador d) { doadores.add(d); salvarNoArquivo(); }
-    public List<Doador> listarDoadores() { return doadores; }
-    public void deletarDoador(int id) { doadores.removeIf(d -> d.getId() == id); salvarNoArquivo(); }
+    public void salvarDoador(Doador d) { 
+        doadores.add(d); 
+        salvarNoArquivo(); 
+    }
+    
+    public List<Doador> listarDoadores() { 
+        return doadores; 
+    }
+    
+    public boolean deletarDoador(int id) { 
+        boolean removido = doadores.removeIf(d -> d.getId() == id); 
+        if (removido) salvarNoArquivo();
+        return removido;
+    }
     
     public void atualizarTelefoneDoador(int id, String novoTelefone) {
         for (Doador doador : doadores) {
@@ -40,11 +62,22 @@ public class CadastroRepository {
         System.out.println("Doador não encontrado.");
     }
 
-    public void salvarItem(ItemDoacao i) { itens.add(i); salvarNoArquivo(); }
-    public List<ItemDoacao> listarItens() { return itens; }
-    public void deletarItem(int id) { itens.removeIf(i -> i.getId() == id); salvarNoArquivo(); }
+    public void salvarItem(ItemDoacao i) { 
+        itens.add(i); 
+        salvarNoArquivo(); 
+    }
+    
+    public List<ItemDoacao> listarItens() { 
+        return itens; 
+    }
+    
+    public boolean deletarItem(int id) { 
+        boolean removido = itens.removeIf(i -> i.getId() == id); 
+        if (removido) salvarNoArquivo();
+        return removido;
+    }
 
-   private void salvarNoArquivo() {
+    private void salvarNoArquivo() {
         try (ObjectOutputStream oosB = new ObjectOutputStream(new FileOutputStream("beneficiarios.dat"));
              ObjectOutputStream oosD = new ObjectOutputStream(new FileOutputStream("doadores.dat"));
              ObjectOutputStream oosI = new ObjectOutputStream(new FileOutputStream("itens.dat"));
@@ -147,7 +180,7 @@ public class CadastroRepository {
         return itens.stream().filter(i -> i.getId() == id).findFirst().orElse(null);
     }
 
-   public int gerarIdSolicitacao() {
+    public int gerarIdSolicitacao() {
         Random random = new Random();
         int novoid;
         boolean existe;
@@ -159,27 +192,31 @@ public class CadastroRepository {
         return novoid;
     }
 
+    public Doador buscarDoadorPorId(int id) {
+        return doadores.stream().filter(d -> d.getId() == id).findFirst().orElse(null);
+    }
+
     public void registrarSolicitacao(int idBeneficiario, int idItem, int quantidade, String justificativa) {
         Beneficiario b = buscarBeneficiarioPorId(idBeneficiario);
         ItemDoacao item = buscarItemPorId(idItem);
 
         if (b == null) {
-            System.out.println("Erro: Beneficiário não encontrado!");
+            System.out.println("[ERRO] Beneficiário não encontrado!");
             return;
         }
 
         if (item == null) {
-            System.out.println("Erro: Item não encontrado!");
+            System.out.println("[ERRO] Item não encontrado!");
             return;
         }
 
         if (!item.getStatus().equalsIgnoreCase("Disponível")) {
-            System.out.println("Erro: Este item não está disponível(Status: " + item.getStatus() + ").");
+            System.out.println("[ERRO] Este item não está disponível (Status: " + item.getStatus() + ").");
             return;
         }
 
         if (quantidade > item.getQuantidade()) {
-            System.out.println("Erro: Quantidade solicitada (" + quantidade+") é maior que o estoque(" + item.getQuantidade() + ").");
+            System.out.println("[ERRO] Quantidade solicitada (" + quantidade+") é maior que o estoque(" + item.getQuantidade() + ").");
             return;
         }
 
@@ -195,7 +232,47 @@ public class CadastroRepository {
 
         salvarNoArquivo();
 
-        System.out.println("\n Sucesso! Solicitação aprovada (ID: " + idSol + ")");
-        System.out.println("Novo estoque de '" + item.getNomeItem() + "': " + item.getQuantidade() + "(" + item.getStatus() + ")");
+        System.out.println("\n==================================");
+        System.out.println("       SOLICITAÇÃO APROVADA");
+        System.out.println("==================================");
+        System.out.println("ID da Solicitação: " + idSol);
+        System.out.println("Item Solicitado: " + item.getNomeItem());
+        System.out.println("Novo Estoque: " + item.getQuantidade() + " (" + item.getStatus() + ")");
+        System.out.println("==================================");
+    }
+
+    public List<Solicitacao> listarSolicitacoes() {
+        return solicitacoes;
+    }
+
+    public void concluirEntrega(int idSolicitacao) {
+        Solicitacao sol = solicitacoes.stream().filter(s -> s.getId() == idSolicitacao).findFirst().orElse(null);
+        
+        if (sol == null) {
+            System.out.println("[ERRO] Solicitação não encontrada!");
+            return;
+        }
+        
+        if (sol.getStatus().equalsIgnoreCase("Concluída")) {
+            System.out.println("[AVISO] Esta entrega já foi concluída anteriormente.");
+            return;
+        }
+
+        ItemDoacao item = buscarItemPorId(sol.getItem().getId());
+        
+        sol.setStatus("Concluída");
+        if (item != null) {
+            item.setStatus("Entregue");
+        }
+
+        salvarNoArquivo();
+
+        System.out.println("\n==================================");
+        System.out.println("        ENTREGA CONCLUÍDA");
+        System.out.println("==================================");
+        System.out.println("ID da Solicitação: " + sol.getId());
+        System.out.println("Status da Solicitação: " + sol.getStatus());
+        System.out.println("Status do Item Físico: Entregue");
+        System.out.println("==================================");
     }
 }
