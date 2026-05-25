@@ -234,3 +234,6 @@ src/
 
 ---
 
+# 👨‍💻 Autor
+
+Projeto acadêmico desenvolvido por Alef Santos.
