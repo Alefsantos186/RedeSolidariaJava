@@ -1,6 +1,7 @@
 package model;
 
-public class Solicitacao {
+import java.io.Serializable;
+public class Solicitacao implements Serializable {
     private int id;
     private Beneficiario beneficiario; 
     private ItemDoacao item;

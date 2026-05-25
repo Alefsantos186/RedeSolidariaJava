@@ -1,118 +1,236 @@
-🤝 Rede Solidária de Doação - Java POO
-==================================
-Aplicação orientada a objetos desenvolvida em Java para apoiar o cadastro e gerenciamento de itens doados para pessoas e instituições em situação de necessidade. Este projeto visa conectar doadores e beneficiários, ajudando no reaproveitamento de recursos, e atende aos ODS 1, 2, 10 e 12 da ONU.
+# 🤝 Rede Solidária de Doação - Java POO
 
-Projeto desenvolvido para fins acadêmicos - Foco: Checkpoint 1.
+Aplicação orientada a objetos desenvolvida em Java para apoiar o cadastro e gerenciamento de itens doados para pessoas e instituições em situação de necessidade.
 
-✨ O que o sistema faz (Checkpoint 1)
-==================================
-Cadastrar Doadores
+O sistema conecta doadores e beneficiários, auxiliando no reaproveitamento de recursos e contribuindo com os seguintes Objetivos de Desenvolvimento Sustentável (ODS) da ONU:
 
-Cadastrar Beneficiários (ONGs, famílias, escolas, etc.)
+- ODS 1 — Erradicação da Pobreza
+- ODS 2 — Fome Zero
+- ODS 10 — Redução das Desigualdades
+- ODS 12 — Consumo e Produção Responsáveis
 
-Cadastrar Itens para Doação
+Projeto desenvolvido para fins acadêmicos — **Foco: Checkpoint 2**.
 
-Listar dados salvos (Doadores, Beneficiários e Itens Disponíveis)
+---
 
-Salvar e carregar dados automaticamente ao abrir e fechar o programa.
+# ✨ Funcionalidades do Sistema (Checkpoint 2)
 
-📊 Diagrama de Classes (Modelagem)
-==================================
+## Cadastro
+- Cadastro de Doadores
+- Cadastro de Beneficiários
+- Cadastro de Itens para Doação
+
+## Consultas e Filtros
+- Listagem de itens disponíveis
+- Filtro de itens por categoria
+- Listagem de doadores
+- Filtro de doadores por estado
+- Listagem de beneficiários ordenados por prioridade
+
+## Sistema de Solicitações
+- Beneficiários podem solicitar itens
+- Controle automático de estoque
+- Atualização automática do status dos itens
+- Registro de solicitações aprovadas
+
+## Área Administrativa
+- Login administrativo
+- Atualização de telefone de doadores
+- Exclusão individual de registros
+- Exclusão total de registros
+- Conclusão de entregas
+- Relatórios do sistema
+
+## Persistência Automática
+- Salvamento automático em arquivos `.dat`
+- Carregamento automático ao iniciar o sistema
+
+## Validações
+- Verificação de email duplicado
+- Validação de telefone
+- Controle de quantidade mínima
+- Geração automática de IDs únicos
+
+---
+
+# 📊 Diagrama de Classes (Modelagem)
+
 ![Diagrama de Classes](diagrama_de_classe.jpg)
 
-🚀 Como usar
-==================================
-Pré-requisito: Ter o Java (JDK) instalado na máquina.
+---
 
-Clone o projeto:
+# 🚀 Como usar
+
+## Pré-requisitos
+Ter o Java (JDK) instalado na máquina.
+
+## Clone o projeto
+
 ```bash
 git clone https://github.com/Alefsantos186/RedeSolidariaJava.git
 cd RedeSolidariaJava/src
 ```
 
-Compile os arquivos Java:
+## Compile os arquivos Java
+
 ```bash
 javac main/*.java model/*.java repository/*.java util/*.java
 ```
 
-Execute o sistema:
+## Execute o sistema
+
 ```bash
 java main.Main
 ```
-📝 Exemplo prático:
-Ao executar, você navegará por um menu interativo via CLI (linha de comando):
-========================================
-REDE SOLIDÁRIA DE DOAÇÃO
-========================================
-         Como deseja acessar o sistema?
-         
-         1. Usuario comum (Apenas Cadastro e Consulta)
-         2. Desenvolvedor (Acesso Total)
-         Escolha: 1
-         
-         MENU PRINCIPAL
-         
-         --- CADASTRAR ---
-         1. Cadastrar Doador
-         2. Cadastrar Beneficiário
-         3. Cadastrar Item para Doação
 
-         --- CONSULTAR ---
-         4. Listar Itens Disponíveis
-         5. Listar Doadores
-         6. Listar Beneficiários
-         
-         0. Sair
-         Escolha uma opção:
+---
 
-Persistência Local: Ao escolher a opção "0. Sair", o sistema varre as listas em memória e salva tudo em arquivos .dat locais de forma automática, garantindo que nenhum cadastro seja perdido.
+# 📝 Exemplo do Menu Principal
 
-📂 Estrutura do projeto
-==================================
 ```text
-src/
-├── model/             # Classes de domínio
-│   ├── Usuario.java         # Classe base
-│   ├── Doador.java          # Herda de Usuario
-│   ├── Beneficiario.java    # Herda de Usuario
-│   ├── ItemDoacao.java      # Entidade de itens
-│   ├── Solicitacao.java     # Registro de pedidos
-│   └── DoacaoEfetivada.java # Registro de entregas concluídas
-├── repository/        # Armazenamento e persistência
-│   └── CadastroRepository.java 
-├── service/           # Regras de negócio
-├── util/              # Classes utilitárias e validações
-│   └── Validador.java
-└── main/              # Execução do sistema
-    └── Main.java            # Menu principal CLI
+==================================
+   REDE SOLIDÁRIA DE DOAÇÃO
+==================================
+
+1. Usuário
+2. Administrador
+
+--- CADASTRAR ---
+1. Cadastrar Doador
+2. Cadastrar Beneficiário
+3. Cadastrar Item para Doação
+
+--- CONSULTAR ---
+4. Listar Itens Disponíveis
+5. Listar Doadores
+6. Listar Beneficiários
+
+--- SOLICITAÇÕES ---
+7. Solicitar Item
+
+--- ÁREA ADMINISTRATIVA ---
+8. Atualizar Telefone do Doador
+9. Excluir Doador
+10. Excluir Beneficiário
+11. Excluir Item
+12. Apagar Todos os Doadores
+13. Apagar Todos os Beneficiários
+14. Apagar Todos os Itens
+15. Concluir Entrega
+16. Relatórios do Sistema
+
+0. Sair
 ```
 
-📸 Evidências de Funcionamento (Checkpoint 1)
-==================================
-Estrutura de Pastas do Projeto
-![Estrutura de Pastas](estruturas_pasta.jpg)
+---
 
-Execução no Terminal e Fluxo de Sistema
-Aqui estão as evidências do menu principal e das funcionalidades de cadastro e consulta em operação:
+# 💾 Persistência Local
 
-**1. Acesso, Menu Principal e Cadastro de Doador:**
-![Menu Principal](Menu1.jpg)
+Ao encerrar o sistema, todos os dados são salvos automaticamente em arquivos `.dat` locais utilizando serialização de objetos.
 
-**2. Cadastro de Beneficiário e Itens:**
-![Cadastro de Beneficiário e Item](menu2.jpg)
+Ao iniciar novamente o programa, os dados anteriores são carregados automaticamente.
 
-**3. Listagem de Itens e Doadores:**
-![Listagem de Itens e Doadores](menu3.jpg)
+---
 
-**4. Listagem de Beneficiários e Encerramento:**
-![Listagem de Beneficiários](menu4.jpg)
+# 📂 Estrutura do Projeto
 
-🛠️ Tecnologias
-==================================
-Java (Linguagem base)
+```text
+src/
+├── model/
+│   ├── Usuario.java
+│   ├── Doador.java
+│   ├── Beneficiario.java
+│   ├── ItemDoacao.java
+│   └── Solicitacao.java
+│ 
+├── repository/
+│   └── CadastroRepository.java
+│ 
+├── service/
+│ 
+├── util/
+│   └── Validador.java
+│ 
+└── main/
+    └── Main.java
+```
 
-Scanner (Entrada de dados via terminal)
+---
 
-ArrayList (Armazenamento em memória das entidades)
+# 🧠 Conceitos de POO Utilizados
 
-ObjectOutputStream / ObjectInputStream (Serialização de objetos para arquivos binários .dat)
+- Encapsulamento
+- Herança
+- Organização em camadas
+- Persistência de objetos
+- Serialização
+- Collections Framework
+- Streams API
+- Validação de dados
+- Manipulação de arquivos
+
+---
+
+# 📸 Evidências de Funcionamento (Checkpoint 2)
+
+## Estrutura de Pastas do Projeto
+
+![Estrutura do Projeto](estrutura_projeto.png)
+
+---
+
+## 1. Login e Menu Principal
+
+![Login e Menu](login_menu.png)
+
+---
+
+## 2. Cadastro de Doador
+
+![Cadastro Doador](cadastro_doador.png)
+
+---
+
+## 3. Cadastro de Beneficiário
+
+![Cadastro Beneficiário](cadastro_beneficiario.png)
+
+---
+
+## 4. Cadastro de Item para Doação
+
+![Cadastro Item](cadastro_item.png)
+
+---
+
+## 5. Solicitação de Item
+
+![Solicitação](solicitacao_item.png)
+
+---
+
+## 6. Conclusão de Entrega
+
+![Entrega](conclusao_entrega.png)
+
+---
+
+## 7. Relatórios do Sistema
+
+![Relatórios](relatorios_sistema.png)
+
+---
+
+# 🛠️ Tecnologias Utilizadas
+
+- Java
+- Programação Orientada a Objetos (POO)
+- Scanner
+- ArrayList
+- Streams API
+- Serialização de Objetos
+- ObjectOutputStream / ObjectInputStream
+- Persistência local com arquivos `.dat`
+
+---
+

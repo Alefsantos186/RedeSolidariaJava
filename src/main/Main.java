@@ -65,9 +65,9 @@ public class Main {
             System.out.println("2. Cadastrar Beneficiário");
             System.out.println("3. Cadastrar Item para Doação");
             System.out.println("\n--- CONSULTAR ---");
-            System.out.println("4. Listar Itens Disponíveis (Com Filtro)");
+            System.out.println("4. Listar Itens Disponíveis");
             System.out.println("5. Listar Doadores");
-            System.out.println("6. Listar Beneficiários (Ordenado por Prioridade)");
+            System.out.println("6. Listar Beneficiários");
             System.out.println("\n--- SOLICITAÇÕES ---");
             System.out.println("7. Solicitar Item para um Beneficiário");
             
@@ -80,7 +80,7 @@ public class Main {
                 System.out.println("12. APAGAR TODOS os Doadores");
                 System.out.println("13. APAGAR TODOS os Beneficiários");
                 System.out.println("14. APAGAR TODOS os Itens de Doação");
-                System.out.println("15. Concluir Entrega (Mudar status para Entregue/Concluída)");
+                System.out.println("15. Concluir Entrega");
                 System.out.println("16. Relatórios do Sistema");
             }
             
