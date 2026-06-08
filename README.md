@@ -1,138 +1,77 @@
 # 🤝 Rede Solidária de Doação - Java POO
 
-Aplicação orientada a objetos desenvolvida em Java para apoiar o cadastro e gerenciamento de itens doados para pessoas e instituições em situação de necessidade.
+Aplicação orientada a objetos desenvolvida em Java para apoiar o cadastro, gerenciamento e distribuição de itens doados para pessoas e instituições em situação de necessidade.
 
-O sistema conecta doadores e beneficiários, auxiliando no reaproveitamento de recursos e contribuindo com os seguintes Objetivos de Desenvolvimento Sustentável (ODS) da ONU:
+O sistema conecta doadores e beneficiários, promovendo o reaproveitamento de recursos e contribuindo para os Objetivos de Desenvolvimento Sustentável (ODS) da ONU.
 
-- ODS 1 — Erradicação da Pobreza
-- ODS 2 — Fome Zero
-- ODS 10 — Redução das Desigualdades
-- ODS 12 — Consumo e Produção Responsáveis
-
-Projeto desenvolvido para fins acadêmicos — **Foco: Checkpoint 2**.
+Versão final do projeto acadêmico desenvolvido para a disciplina de Programação Orientada a Objetos.
 
 ---
 
-# ✨ Funcionalidades do Sistema (Checkpoint 2)
+## 🌎 ODS Atendidos
 
-## Cadastro
-- Cadastro de Doadores
-- Cadastro de Beneficiários
-- Cadastro de Itens para Doação
+A aplicação foi projetada para mitigar problemas sociais através da tecnologia, atuando diretamente em quatro metas globais da Agenda 2030 da ONU:
 
-## Consultas e Filtros
-- Listagem de itens disponíveis
-- Filtro de itens por categoria
-- Listagem de doadores
-- Filtro de doadores por estado
-- Listagem de beneficiários ordenados por prioridade
-
-## Sistema de Solicitações
-- Beneficiários podem solicitar itens
-- Controle automático de estoque
-- Atualização automática do status dos itens
-- Registro de solicitações aprovadas
-
-## Área Administrativa
-- Login administrativo
-- Atualização de telefone de doadores
-- Exclusão individual de registros
-- Exclusão total de registros
-- Conclusão de entregas
-- Relatórios do sistema
-
-## Persistência Automática
-- Salvamento automático em arquivos `.dat`
-- Carregamento automático ao iniciar o sistema
-
-## Validações
-- Verificação de email duplicado
-- Validação de telefone
-- Controle de quantidade mínima
-- Geração automática de IDs únicos
+* **ODS 1 — Erradicação da Pobreza:** Facilita a organização de fluxos de doações de insumos básicos para comunidades carentes.
+* **ODS 2 — Fome Zero:** Agiliza a triagem e o repasse de alimentos não perecíveis e cestas básicas para instituições e famílias.
+* **ODS 10 — Redução das Desigualdades:** O algoritmo de triagem permite priorizar o atendimento de beneficiários conforme o nível de urgência social.
+* **ODS 12 — Consumo e Produção Responsáveis:** Combate o desperdício através da economia circular, permitindo que móveis, roupas e materiais em bom estado ganhem um novo ciclo de vida útil.
 
 ---
 
-# 📊 Diagrama de Classes (Modelagem)
+## ✨ Funcionalidades do Sistema (Checkpoint 3)
 
-![Diagrama de Classes](diagrama_de_classe.jpg)
+### Cadastro
 
----
+* Cadastro de Doadores
+* Cadastro de Beneficiários
+* Cadastro de Itens para Doação
 
-# 🚀 Como usar
+### Consultas e Filtros
 
-## Pré-requisitos
-Ter o Java (JDK) instalado na máquina.
+* Listagem de itens disponíveis
+* Filtro de itens por categoria validada
+* Listagem de doadores com identificação de estado via DDD
+* Listagem de beneficiários ordenados por prioridade
 
-## Clone o projeto
+### Sistema de Solicitações
 
-```bash
-git clone https://github.com/Alefsantos186/RedeSolidariaJava.git
-cd RedeSolidariaJava/src
-```
+* Solicitação de itens por beneficiários
+* Controle automático de estoque impedindo pedidos acima do limite
+* Atualização automática de status dos itens
+* Registro de solicitações aprovadas
 
-## Compile os arquivos Java
+### Gestão de Entregas
 
-```bash
-javac main/*.java model/*.java repository/*.java util/*.java
-```
+* Conclusão de entregas com geração de DoacaoEfetivada
+* Cancelamento de solicitações com devolução automática de estoque
+* Proteção contra exclusão de registros vinculados a operações ativas
 
-## Execute o sistema
+### Área Administrativa
 
-```bash
-java main.Main
-```
-
----
-
-# 📝 Exemplo do Menu Principal
-
-```text
-==================================
-   REDE SOLIDÁRIA DE DOAÇÃO
-==================================
-
-1. Usuário
-2. Administrador
-
---- CADASTRAR ---
-1. Cadastrar Doador
-2. Cadastrar Beneficiário
-3. Cadastrar Item para Doação
-
---- CONSULTAR ---
-4. Listar Itens Disponíveis
-5. Listar Doadores
-6. Listar Beneficiários
-
---- SOLICITAÇÕES ---
-7. Solicitar Item
-
---- ÁREA ADMINISTRATIVA ---
-8. Atualizar Telefone do Doador
-9. Excluir Doador
-10. Excluir Beneficiário
-11. Excluir Item
-12. Apagar Todos os Doadores
-13. Apagar Todos os Beneficiários
-14. Apagar Todos os Itens
-15. Concluir Entrega
-16. Relatórios do Sistema
-
-0. Sair
-```
+* Login administrativo protegido por senha
+* Atualização de telefone de doadores
+* Alteração dinâmica de prioridade de beneficiários
+* Relatórios analíticos utilizando Java Stream API
 
 ---
 
-# 💾 Persistência Local
+## 📊 Diagrama de Classes (UML Atualizado)
 
-Ao encerrar o sistema, todos os dados são salvos automaticamente em arquivos `.dat` locais utilizando serialização de objetos.
-
-Ao iniciar novamente o programa, os dados anteriores são carregados automaticamente.
+![Diagrama de Classes](diagrama_de_classe.png)
 
 ---
 
-# 📂 Estrutura do Projeto
+## 💾 Persistência Local
+
+O sistema utiliza serialização nativa de objetos Java para persistir os dados em arquivos binários `.dat` locais.
+
+* Os dados são carregados automaticamente na inicialização do programa.
+* Toda operação de cadastro, atualização, entrega ou cancelamento realiza salvamento automático, garantindo integridade das informações.
+
+---
+
+## 📂 Estrutura do Projeto
 
 ```text
 src/
@@ -141,99 +80,86 @@ src/
 │   ├── Doador.java
 │   ├── Beneficiario.java
 │   ├── ItemDoacao.java
-│   └── Solicitacao.java
-│ 
+│   ├── Solicitacao.java
+│   └── DoacaoEfetivada.java
+│
 ├── repository/
 │   └── CadastroRepository.java
-│ 
-├── service/
-│ 
+│
 ├── util/
 │   └── Validador.java
-│ 
+│
 └── main/
     └── Main.java
 ```
 
 ---
 
-# 🧠 Conceitos de POO Utilizados
+## 🧠 Conceitos de POO e Tecnologias Utilizadas
 
-- Encapsulamento
-- Herança
-- Organização em camadas
-- Persistência de objetos
-- Serialização
-- Collections Framework
-- Streams API
-- Validação de dados
-- Manipulação de arquivos
+### Abstração e Encapsulamento
 
----
+Modelagem de classes de domínio com atributos protegidos e acesso controlado por métodos.
 
-# 📸 Evidências de Funcionamento (Checkpoint 2)
+### Herança e Polimorfismo
 
-## Estrutura de Pastas do Projeto
+Classe abstrata `Usuario` especializada pelas subclasses `Doador` e `Beneficiario`.
 
-![Estrutura do Projeto](estrutura_projeto.png)
+### Collections Framework
 
----
+Utilização de `List` e `ArrayList` para gerenciamento dinâmico dos dados.
 
-## 1. Login e Menu Principal
+### Stream API
 
-![Login e Menu](login_menu.png)
+Filtros, ordenações, agrupamentos e geração de relatórios administrativos estruturados.
 
----
+### Persistência Binária
 
-## 2. Cadastro de Doador
+Manipulação de arquivos utilizando as classes nativas:
 
-![Cadastro Doador](cadastro_doador.png)
+* ObjectOutputStream
+* ObjectInputStream
 
 ---
 
-## 3. Cadastro de Beneficiário
+## 📈 Relatórios Administrativos Disponíveis
 
-![Cadastro Beneficiário](cadastro_beneficiario.png)
+Através do menu do administrador, o gestor possui acesso a painéis estatísticos baseados em Streams:
 
----
-
-## 4. Cadastro de Item para Doação
-
-![Cadastro Item](cadastro_item.png)
-
----
-
-## 5. Solicitação de Item
-
-![Solicitação](solicitacao_item.png)
-
----
-
-## 6. Conclusão de Entrega
-
-![Entrega](conclusao_entrega.png)
+* Quantidade total de doadores
+* Quantidade total de beneficiários
+* Quantidade total de itens
+* Quantidade total de solicitações
+* Quantidade total de entregas concluídas
+* Itens agrupados por categoria
+* Doadores agrupados por estado
+* Ranking de itens mais solicitados
+* Ranking de beneficiários mais atendidos
+* Histórico de doações efetivadas
 
 ---
 
-## 7. Relatórios do Sistema
+## 👥 Relatório de Colaboração (Desenvolvimento Solo)
 
-![Relatórios](relatorios_sistema.png)
+Em atendimento aos requisitos acadêmicos de entrega, este projeto foi desenvolvido integralmente por um único integrante.
 
----
+O autor assumiu de maneira autônoma todas as etapas do ciclo de desenvolvimento do software:
 
-# 🛠️ Tecnologias Utilizadas
-
-- Java
-- Programação Orientada a Objetos (POO)
-- Scanner
-- ArrayList
-- Streams API
-- Serialização de Objetos
-- ObjectOutputStream / ObjectInputStream
-- Persistência local com arquivos `.dat`
+* **Arquiteto de Software:** Responsável pela modelagem UML, estrutura das classes e definição das regras de negócio.
+* **Desenvolvedor Backend:** Responsável pela implementação das funcionalidades, persistência, validações e relatórios.
+* **Analista de Qualidade (QA):** Responsável pelos testes de funcionamento, validação de entradas e verificação de regras de negócio.
+* **DevOps / GitHub:** Responsável pelo controle de versões, gerenciamento de branches, commits, merges e organização do repositório.
 
 ---
 
-# 👨‍💻 Autor
+## 🌍 Impacto Social
 
-Projeto acadêmico desenvolvido por Alef Santos.
+A plataforma busca organizar o processo de doação de recursos para famílias, ONGs e instituições em situação de vulnerabilidade.
+
+O sistema promove a reutilização de itens, reduz desperdícios e contribui para uma distribuição mais eficiente de recursos, alinhando tecnologia e responsabilidade social.
+
+---
+
+## 👨‍💻 Autor
+
+**Alef Santos**
