@@ -1,2 +1,5 @@
-*.dat
 *.class
+*.dat
+bin/
+out/
+.vscode/
