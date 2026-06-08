@@ -56,9 +56,62 @@ A aplicação foi projetada para mitigar problemas sociais através da tecnologi
 
 ---
 
-## 📊 Diagrama de Classes (UML Atualizado)
+## 📊 Diagrama de Classes (UML)
 
 ![Diagrama de Classes](diagrama_de_classe.png)
+
+---
+
+## 🚀 Como Executar o Sistema
+
+### Pré-requisitos
+
+É necessário possuir o Java JDK instalado na máquina.
+
+### Clonar o repositório
+
+```bash
+git clone https://github.com/Alefsantos186/RedeSolidariaJava.git
+cd RedeSolidariaJava/src
+```
+
+### Compilar o projeto
+
+```bash
+javac main/*.java model/*.java repository/*.java util/*.java
+```
+
+### Executar o sistema
+
+```bash
+java main.Main
+```
+
+---
+
+## 🔐 Acesso Administrativo
+
+O sistema possui dois níveis de acesso:
+
+```text
+1. Usuário
+2. Administrador
+```
+
+Para acessar as funcionalidades administrativas, selecione a opção **Administrador** e informe a senha:
+
+```text
+admin123
+```
+
+A área administrativa permite:
+
+* Atualizar telefone de doadores
+* Alterar prioridade de beneficiários
+* Concluir entregas
+* Cancelar solicitações
+* Consultar relatórios administrativos
+* Gerenciar registros do sistema
 
 ---
 
@@ -163,3 +216,4 @@ O sistema promove a reutilização de itens, reduz desperdícios e contribui par
 ## 👨‍💻 Autor
 
 **Alef Santos**
+
