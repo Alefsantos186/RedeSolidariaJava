@@ -43,17 +43,24 @@ public class CadastroRepository {
     }
     
     public boolean deletarBeneficiario(int id) { 
+        Beneficiario b = buscarBeneficiarioPorId(id);
+        if (b == null) {
+            System.out.println("[ERRO] Beneficiario nao encontrado.");
+            return false;
+        }
+
         boolean vinculado = solicitacoes.stream()
-            .anyMatch(s -> s.getBeneficiario().getId() == id);
+            .anyMatch(s -> s.getBeneficiario().getId() == id && 
+                (s.getStatus().equalsIgnoreCase(STATUS_APROVADA) || s.getStatus().equalsIgnoreCase(STATUS_CONCLUIDA)));
         
         if (vinculado) {
-            System.out.println("[ERRO] Nao e possivel excluir: este beneficiario possui solicitacoes vinculadas.");
+            System.out.println("[ERRO] Nao e possivel excluir: este beneficiario possui solicitacoes ativas ou concluidas.");
             return false;
         }
         
-        boolean removido = beneficiarios.removeIf(b -> b.getId() == id); 
-        if (removido) salvarNoArquivo();
-        return removido;
+        beneficiarios.removeIf(ben -> ben.getId() == id); 
+        salvarNoArquivo();
+        return true;
     }
 
     public void salvarDoador(Doador d) { 
@@ -66,17 +73,26 @@ public class CadastroRepository {
     }
     
     public boolean deletarDoador(int id) { 
-        boolean vinculado = itens.stream()
-            .anyMatch(i -> i.getIdDoador() == id);
+        Doador doador = buscarDoadorPorId(id);
+        if (doador == null) {
+            System.out.println("[ERRO] Doador nao encontrado.");
+            return false;
+        }
+
+        boolean possuiItemAtivo = itens.stream()
+            .anyMatch(i -> i.getIdDoador() == id &&
+                (i.getStatus().equalsIgnoreCase(STATUS_DISPONIVEL) ||
+                 i.getStatus().equalsIgnoreCase(STATUS_RESERVADO))
+            );
         
-        if (vinculado) {
-            System.out.println("[ERRO] Nao e possivel excluir: este doador possui itens de doacao vinculados.");
+        if (possuiItemAtivo) {
+            System.out.println("[ERRO] Nao e possivel excluir: este doador possui itens ativos vinculados.");
             return false;
         }
         
-        boolean removido = doadores.removeIf(d -> d.getId() == id); 
-        if (removido) salvarNoArquivo();
-        return removido;
+        doadores.removeIf(d -> d.getId() == id); 
+        salvarNoArquivo();
+        return true;
     }
     
     public void atualizarTelefoneDoador(int id, String novoTelefone) {
@@ -101,17 +117,23 @@ public class CadastroRepository {
     }
     
     public boolean deletarItem(int id) { 
+        ItemDoacao item = buscarItemPorId(id);
+        if (item == null) {
+            System.out.println("[ERRO] Item nao encontrado.");
+            return false;
+        }
+
         boolean vinculado = solicitacoes.stream()
-            .anyMatch(s -> s.getItem().getId() == id);
+            .anyMatch(s -> s.getItem().getId() == id && !s.getStatus().equalsIgnoreCase(STATUS_CANCELADA));
         
         if (vinculado) {
             System.out.println("[ERRO] Nao e possivel excluir: este item possui solicitacoes vinculadas.");
             return false;
         }
         
-        boolean removido = itens.removeIf(i -> i.getId() == id); 
-        if (removido) salvarNoArquivo();
-        return removido;
+        itens.removeIf(i -> i.getId() == id); 
+        salvarNoArquivo();
+        return true;
     }
     
     public List<DoacaoEfetivada> listarDoacoesEfetivadas() {

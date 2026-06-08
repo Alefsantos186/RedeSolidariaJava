@@ -475,13 +475,27 @@ public class Main {
                 case 9: 
                     if (perfil != 2) { System.out.println("Acesso Negado! Apenas Administradores."); break; }
                     System.out.println("\n--- EXCLUIR DOADOR ---");
-                    System.out.print("ID do doador: ");
+                    System.out.println("Doadores cadastrados:");
+                    bancoDeDados.listarDoadores().forEach(d -> 
+                        System.out.println("ID: " + d.getId() + " | Nome: " + d.getNome())
+                    );
+                    
+                    System.out.print("ID do doador (ou 0 para cancelar): ");
                     int idDelDoador = lerInteiroSeguro(scanner);
                     
+                    if (idDelDoador == 0) {
+                        System.out.println("Operacao cancelada.");
+                        break;
+                    }
+                    
                     System.out.print("Tem certeza que deseja excluir o doador " + idDelDoador + "? (S/N): ");
-                    if (scanner.nextLine().trim().equalsIgnoreCase("S")) {
+                    String confirma = scanner.nextLine().trim();
+                    
+                    if (confirma.equalsIgnoreCase("S")) {
                         boolean doadorRemovido = bancoDeDados.deletarDoador(idDelDoador);
-                        if(doadorRemovido) System.out.println("[SUCESSO] Doador removido.");
+                        if (doadorRemovido) {
+                            System.out.println("[SUCESSO] Doador removido.");
+                        }
                     } else {
                         System.out.println("Operacao cancelada.");
                     }
@@ -490,13 +504,27 @@ public class Main {
                 case 10: 
                     if (perfil != 2) { System.out.println("Acesso Negado! Apenas Administradores."); break; }
                     System.out.println("\n--- EXCLUIR BENEFICIARIO ---");
-                    System.out.print("ID do beneficiario: ");
+                    System.out.println("Beneficiarios cadastrados:");
+                    bancoDeDados.listarBeneficiarios().forEach(b -> 
+                        System.out.println("ID: " + b.getId() + " | Nome: " + b.getNome())
+                    );
+                    
+                    System.out.print("ID do beneficiario (ou 0 para cancelar): ");
                     int idDelBen = lerInteiroSeguro(scanner);
                     
+                    if (idDelBen == 0) {
+                        System.out.println("Operacao cancelada.");
+                        break;
+                    }
+                    
                     System.out.print("Tem certeza que deseja excluir o beneficiario " + idDelBen + "? (S/N): ");
-                    if (scanner.nextLine().trim().equalsIgnoreCase("S")) {
+                    String confirmaBen = scanner.nextLine().trim();
+                    
+                    if (confirmaBen.equalsIgnoreCase("S")) {
                         boolean benRemovido = bancoDeDados.deletarBeneficiario(idDelBen);
-                        if(benRemovido) System.out.println("[SUCESSO] Beneficiario removido.");
+                        if (benRemovido) {
+                            System.out.println("[SUCESSO] Beneficiario removido.");
+                        }
                     } else {
                         System.out.println("Operacao cancelada.");
                     }
@@ -505,13 +533,37 @@ public class Main {
                 case 11: 
                     if (perfil != 2) { System.out.println("Acesso Negado! Apenas Administradores."); break; }
                     System.out.println("\n--- EXCLUIR ITEM ---");
-                    System.out.print("ID do item: ");
+                    System.out.println("Itens disponiveis para exclusao:");
+
+                    List<ItemDoacao> itensDisponiveisParaExcluir = bancoDeDados.listarItens().stream()
+                        .filter(i -> i.getStatus().equalsIgnoreCase("Disponivel"))
+                        .collect(Collectors.toList());
+
+                    if (itensDisponiveisParaExcluir.isEmpty()) {
+                        System.out.println("Nenhum item disponivel para exclusao.");
+                        break;
+                    }
+
+                    itensDisponiveisParaExcluir.forEach(i ->
+                        System.out.println("ID: " + i.getId() + " | Item: " + i.getNomeItem() + " | Status: " + i.getStatus())
+                    );
+                    
+                    System.out.print("ID do item (ou 0 para cancelar): ");
                     int idDelItem = lerInteiroSeguro(scanner);
                     
+                    if (idDelItem == 0) {
+                        System.out.println("Operacao cancelada.");
+                        break;
+                    }
+                    
                     System.out.print("Tem certeza que deseja excluir o item " + idDelItem + "? (S/N): ");
-                    if (scanner.nextLine().trim().equalsIgnoreCase("S")) {
+                    String confirmaItem = scanner.nextLine().trim();
+                    
+                    if (confirmaItem.equalsIgnoreCase("S")) {
                         boolean itemRemovido = bancoDeDados.deletarItem(idDelItem);
-                        if(itemRemovido) System.out.println("[SUCESSO] Item removido.");
+                        if (itemRemovido) {
+                            System.out.println("[SUCESSO] Item removido.");
+                        }
                     } else {
                         System.out.println("Operacao cancelada.");
                     }
@@ -522,7 +574,7 @@ public class Main {
                     System.out.println("\n--- CONCLUIR ENTREGA ---");
                     
                     List<Solicitacao> pendentes = bancoDeDados.listarSolicitacoes().stream()
-                        .filter(s -> !s.getStatus().equalsIgnoreCase("Concluida") && !s.getStatus().equalsIgnoreCase("Cancelada"))
+                        .filter(s -> s.getStatus().equalsIgnoreCase("Aprovada"))
                         .collect(Collectors.toList());
 
                     if(pendentes.isEmpty()) {
@@ -565,7 +617,7 @@ public class Main {
                     System.out.println("\n--- CANCELAR SOLICITACAO ---");
                     
                     List<Solicitacao> cancelaveis = bancoDeDados.listarSolicitacoes().stream()
-                        .filter(s -> !s.getStatus().equalsIgnoreCase("Concluida") && !s.getStatus().equalsIgnoreCase("Cancelada"))
+                        .filter(s -> s.getStatus().equalsIgnoreCase("Aprovada"))
                         .collect(Collectors.toList());
 
                     if (cancelaveis.isEmpty()) {
@@ -653,7 +705,7 @@ public class Main {
                         .collect(Collectors.groupingBy(d -> Validador.obterEstadoPorTelefone(d.getTelefone()), Collectors.counting()))
                         .forEach((estado, total) -> System.out.println(estado + ": " + total));
                         
-                    System.out.println("\n--- ITENS MAIS SOLICITADOS ---");
+                    System.out.print("\n--- ITENS MAIS SOLICITADOS ---\n");
                     Map<String, Long> itensMaisSolicitados = bancoDeDados.listarSolicitacoes().stream()
                         .filter(s -> s.getItem() != null)
                         .collect(Collectors.groupingBy(s -> s.getItem().getNomeItem(), Collectors.counting()));
